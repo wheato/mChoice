@@ -1,4 +1,4 @@
 
 module.exports = {
-    'db': ''
+    'db': 'mongodb://localhost/mChoice'
 };

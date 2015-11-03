@@ -1,5 +1,5 @@
 var mongoose = require('mongoose'),
-    config = rquire('../config');
+    config = require('../config');
 
 mongoose.connect(config.db);
 
