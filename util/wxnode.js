@@ -6,9 +6,9 @@
  * param:
  */
 var needle = require('needle'),
-  wxconfig = require('../config').wx,
-  nodegrass = require('nodegrass'),
-  crypto = require('crypto');
+    wxconfig = require('../config').wx,
+    nodegrass = require('nodegrass'),
+    crypto = require('crypto');
 
 var getAccessToken = function(appid, secret, cb){
   var access_url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid="
@@ -42,8 +42,8 @@ var getUserInfo = function(ac, openid, cb){
   var url = 'https://api.weixin.qq.com/sns/userinfo?access_token=' + ac
       + '&openid=' + openid + '&lang=zh_CN';
   nodegrass.get(url, function(data, status, headers){
-      console.log(data);
-      cb && cb(data);
+    console.log(data);
+    cb && cb(data);
   },{
     "Content-Type": "charset=UTF-8"
   });
@@ -130,7 +130,7 @@ var getImageFromWx = function(serverId, cb){
       if(res.body["errmsg"] != 40007){
         var name = res.headers['content-disposition'];
         if(name == 'undefined') {name = 'name=' + Date.parse(new Date()) + '.jpg';}
-	name = name.split('=')[1].slice(1).replace('"', '');
+        name = name.split('=')[1].slice(1).replace('"', '');
         cb && cb(null, name, res.body);
       } else {
         cb && cb(res.body);
@@ -184,11 +184,7 @@ var auth = function(code, cb){
   })
 };
 
-
 //外部接口
 exports.sign = sign;
 exports.auth = auth;
 exports.getImageFromWx = getImageFromWx;
-
-
-
