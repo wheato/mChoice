@@ -3,9 +3,8 @@ var mongoose = require('./dbHelper');
 var Schema = mongoose.Schema;
 
 var VoteSchema = new Schema({
-    id: {type: String},
     createUser: {type: String},
-    pubTime: {type: Number, default: 0},
+    pubTime: {type: Number, default: Date.parse(new Date())/1000},
     endTime: {type: Number, default: 0},
     choiceIds: {type: Array, default: []},
     winId: {type: String},
@@ -15,7 +14,4 @@ var VoteSchema = new Schema({
 var Vote = mongoose.model('Vote', VoteSchema);
 
 module.exports = Vote;
-
-
-
 
