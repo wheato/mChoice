@@ -10,13 +10,21 @@ router.get('/:code', function(req, res, next) {
   weixin.auth(req.params.code, function (err, user) {
     if (err) {
       res.json({
-        code: 1000,
+        code: 1001,
         data: '',
         msg: err
       });
 
     } else {
-      res.send(user.toString());
+      var newUser = new User(user);
+      var promise = newUser.save();
+
+      promise.then(function(result){
+        res.send(result);
+      }, function(err){
+        console.log(err);
+      });
+
     }
 
   });

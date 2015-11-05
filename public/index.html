@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试微信接口</title>
+</head>
+<body>
+    <h1>测试微信接口</h1>
+    <button id="login">登录</button>
+    <script src="//cdn.bootcss.com/zepto/1.1.5/zepto.min.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        document.write(document.cookie);
+
+        $.get('/sign', function(res) {
+            // alert(JSON.stringify(res))
+            if (res.timestamp) {
+                wx.config({
+                    debug: true,
+                    appId: 'wx875c7888a7aef3f7',
+                    timestamp: res.timestamp,
+                    nonceStr: res.noncestr,
+                    signature: res.signature,
+                    jsApiList: [
+                        'checkJsApi',
+                        'onMenuShareTimeline',
+                        'onMenuShareAppMessage',
+                        'onMenuShareQQ',
+                        'onMenuShareWeibo',
+                        'hideMenuItems',
+                        'showMenuItems',
+                        'hideAllNonBaseMenuItem',
+                        'showAllNonBaseMenuItem',
+                        'translateVoice',
+                        'startRecord',
+                        'stopRecord',
+                        'onRecordEnd',
+                        'playVoice',
+                        'pauseVoice',
+                        'stopVoice',
+                        'uploadVoice',
+                        'downloadVoice',
+                        'chooseImage',
+                        'previewImage',
+                        'uploadImage',
+                        'downloadImage',
+                        'getNetworkType',
+                        'openLocation',
+                        'getLocation',
+                        'hideOptionMenu',
+                        'showOptionMenu',
+                        'closeWindow',
+                        'scanQRCode',
+                        'chooseWXPay',
+                        'openProductSpecificView',
+                        'addCard',
+                        'chooseCard',
+                        'openCard'
+                    ]
+                })
+            }
+        });
+
+        function getUrlParam(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+
+        function login(){
+            var code = getUrlParam('code');
+            alert(code);
+            if(code){
+                $.get('/login/'+code, function(res){
+                    document.write(JSON.stringify(res));
+                });
+            } else {
+                location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx875c7888a7aef3f7&redirect_uri='+encodeURIComponent('http://sbk.treedom.cn/index.html')+'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
+            }
+        }
+
+        $('#login').on('click', login);
+    </script>
+</body>
+</html>
