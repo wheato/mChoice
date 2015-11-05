@@ -1,14 +1,26 @@
-var express = require('express');
+var express = require('express'),
+    weixin = require('../util/wxnode');
 var router = express.Router();
 
 var User = require('../db/user');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  User.findOne({uid: 'sdfsdfsdfdsf'}, function(err, data){
+router.get('/:code', function(req, res, next) {
+
+  weixin.auth(req.params.code, function (err, user) {
+    if (err) {
+      res.json({
+        code: 1000,
+        data: '',
+        msg: err
+      });
+
+    } else {
+      res.send(user.toString());
+    }
 
   });
-  res.send('respond with a resource');
+
 });
 
 
