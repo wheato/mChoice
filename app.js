@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var create = require('./routes/create'),
     login = require('./routes/login'),
     up = require('./routes/up'),
+    newU = require('./routes/createUser'),
     getVote = require('./routes/get'),
     sign = require('./routes/sign');
 
@@ -27,11 +28,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //route map
 
-//app.use('/up', up);
+app.use('/up', up);
 app.use('/create', create);
-//app.use('/getVote', getVote);
+app.use('/getVote', getVote);
 app.use('/login', login);
 app.use('/sign', sign);
+app.use('/new', newU);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
