@@ -7,18 +7,112 @@ var express = require('express'),
 var router = express.Router();
 
 router.get('/:id', function(req, res, next){
-    var voteId = req.params.id;
+    var voteId = req.params.id,
+        uid = req.cookies["mChoice_uid"];
+
+    var user = null,
+        creator = null,
+        leftVote = null,
+        rightVote = null;
 
     if(!voteId){
-        //id 为 null
+        res.json({
+            code: 10020,
+            errMsg: 'ID为空',
+            data: {}
+        });
     }
 
     Vote.findOne({'_id': voteId}, function(err, vote){
 
-        if(!vote){
+        var leftId = null,
+            rightId = null,
+            creatorId = null;
 
+        if(err){
+            res.json({
+                code: 10021,
+                errMsg: '数据获取失败',
+                data: {}
+            });
         }
 
+        if(!vote){
+            res.json({
+                code: 10022,
+                errMsg: 'ID不正确',
+                data: {}
+            });
+
+            return;
+        }
+
+        creatorId = vote.createUser;
+        leftId = vote.choiceIds[0];
+        rightId = vote.choiceIds[1];
+
+        User.findOne({uid: creatorId}).then(function(user){
+            creator = {
+                avatar: user.avatar,
+                nickname: user.nickname
+            };
+
+            return VoteItem.findOne({'_id': leftId});
+        }, function(err){
+
+        })
+        .then(function(result){
+             leftVote = result;
+             return VoteItem.findOne({'_id': rightId});
+        }, function(err){
+
+        })
+        .then(function(result){
+            rightVote = result;
+
+            var posData = {
+                voteId: voteId,
+                intro: vote.intro,
+                pubTime: vote.pubTime,
+                endTime: vote.endTime,
+                creator: creator,
+                leftVote: leftVote,
+                rightVote: rightVote,
+                isVoted: 0
+            };
+
+            //判断投票是否结束
+            if(Date.parse(new Date())/1000 >= vote.endTime){
+                posData.isEnd = 1;
+
+                if(leftVote.voteTotal > rightVote.voteTotal){
+                    posData.winId = 0;
+                } else if(leftVote.voteTotal < rightVote.voteTotal){
+                    posData.windId = 1;
+                } else {
+                    posData.windId = 3;
+                }
+            } else {
+                posData.isEnd = 0;
+                posData.windId = null;
+            }
+
+            if(uid){
+                for(var i = 0, len = leftVote.voteRecord.lenght; i < len; i++){
+                    if(uid == leftVote.voteRecord[i]){
+                        posData.isVoted = 1;
+                    }
+                }
+                for(var i = 0, len = rightVote.voteRecord.lenght; i < len; i++){
+                    if(uid == rightVote.voteRecord[i]){
+                        posData.isVoted = 1;
+                    }
+                }
+            }
+            res.json(posData);
+        }, function(err){
+
+        });
 
     })
 
