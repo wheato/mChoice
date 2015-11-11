@@ -1,86 +1,127 @@
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE HTML>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>测试微信接口</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>帮选</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">    <meta name="copyright" content="Copyright (c) 2015."/>
+    <meta name="description" content=""/>
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="./css/style.css"/>
 </head>
 <body>
-    <h1>测试微信接口</h1>
-    <button id="login">登录</button>
-    <script src="//cdn.bootcss.com/zepto/1.1.5/zepto.min.js"></script>
-    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script>
-        document.write(document.cookie);
+    <div class="m-wrap">
 
-        $.get('/sign', function(res) {
-            // alert(JSON.stringify(res))
-            if (res.timestamp) {
-                wx.config({
-                    debug: true,
-                    appId: 'wx875c7888a7aef3f7',
-                    timestamp: res.timestamp,
-                    nonceStr: res.noncestr,
-                    signature: res.signature,
-                    jsApiList: [
-                        'checkJsApi',
-                        'onMenuShareTimeline',
-                        'onMenuShareAppMessage',
-                        'onMenuShareQQ',
-                        'onMenuShareWeibo',
-                        'hideMenuItems',
-                        'showMenuItems',
-                        'hideAllNonBaseMenuItem',
-                        'showAllNonBaseMenuItem',
-                        'translateVoice',
-                        'startRecord',
-                        'stopRecord',
-                        'onRecordEnd',
-                        'playVoice',
-                        'pauseVoice',
-                        'stopVoice',
-                        'uploadVoice',
-                        'downloadVoice',
-                        'chooseImage',
-                        'previewImage',
-                        'uploadImage',
-                        'downloadImage',
-                        'getNetworkType',
-                        'openLocation',
-                        'getLocation',
-                        'hideOptionMenu',
-                        'showOptionMenu',
-                        'closeWindow',
-                        'scanQRCode',
-                        'chooseWXPay',
-                        'openProductSpecificView',
-                        'addCard',
-                        'chooseCard',
-                        'openCard'
-                    ]
-                })
-            }
-        });
+        <footer>Copyright &copy; wheato & Power by treedom</footer>
+    </div>
 
-        function getUrlParam(name) {
-            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
-            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
-                    results = regex.exec(location.search);
-            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
-        }
+    <script type="text/template" id="J_index_tpl">
+        <div class="m-index-page" id="J_index_page">
+            <header class="m-header">
+                <div class="m-creator">
+                    <figure class="avatar"><img src="./img/avatar.jpg" alt=""/></figure>
+                    <div class="info">
+                        <div class="nickname">wwwwwwwwwwwwwww</div>
+                        <time class="create-time">2015-11-09 15:30</time>
+                    </div>
+                </div>
+                <div class="m-countdown">
+                    <time>01:00:49</time>
+                    <div>剩余时间</div>
+                </div>
+            </header>
 
-        function login(){
-            var code = getUrlParam('code');
-            alert(code);
-            if(code){
-                $.get('/login/'+code, function(res){
-                    document.write(JSON.stringify(res));
-                });
-            } else {
-                location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx875c7888a7aef3f7&redirect_uri='+encodeURIComponent('http://sbk.treedom.cn/index.html')+'&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect'
-            }
-        }
+            <div class="m-intro">
+                <p>有朋友问及此次招股。一句话，应不应该参与公开发
+                    售。如果应该，OK，中金股票大概会涨到哪里，什么
+                    区间；如果不应该参与，为什么。</p>
+            </div>
 
-        $('#login').on('click', login);
+            <!-- vote begin-->
+            <div class="m-vote">
+                <div class="item left">
+                    <div class="photo">
+                        <figure style="background-image: url(./img/testcover.jpg);">
+                            <div class="mask"></div>
+                        </figure>
+                        <div class="vote-number">113人支持</div>
+                        <div class="btn-vote"></div>
+                    </div>
+                    <div class="name">玛莎拉蒂Ghibli</div>
+                </div>
+                <div class="item right">
+                    <div class="photo">
+                        <figure style="background-image: url(./img/testcover.jpg);">
+                            <div class="mask"></div>
+                        </figure>
+                        <div class="vote-number">114人支持</div>
+                        <div class="btn-vote already"></div>
+                    </div>
+                    <div class="name">玛莎拉蒂Ghibli</div>
+                </div>
+            </div>
+            <!-- vote end-->
+
+            <div class="btn-goto-create">我也要帮选</div>
+        </div>
     </script>
+    <script type="text/template" id="J_create_tpl">
+        <div class="m-create-page">
+            <div class="create-form">
+                <textarea placeholder="为啥要小伙伴帮忙选？" name="intro" id="J_form_intro"></textarea>
+                <div class="vote">
+                    <div class="item">
+                        <h3>第一个选择</h3>
+                        <input type="text" name="leftVoteName" placeholder="名称"/>
+                        <div class="upload-photo" data-value="test" id="J_form_leftPhoto"><div class="icon">上传图像</div></div>
+                    </div>
+                    <div class="item">
+                        <h3>第二个选择</h3>
+                        <input type="text" name="rightVoteName" placeholder="名称"/>
+                        <div class="upload-photo" data-value="test" id="J_form_rightPhoto"><div class="icon">上传图像</div></div>
+                    </div>
+                </div>
+
+                <div class="countdown">
+                    <h3>有效时长</h3>
+                    <div class="select-items">
+                        <div class="item">
+                            <input type="radio" name="endTime" value="0"/>
+                            <label>15分钟</label>
+                        </div>
+                        <div class="item">
+                            <input type="radio" name="endTime" value="1" checked="checked"/>
+                            <label>30分钟</label>
+                        </div>
+                        <div class="item">
+                            <input type="radio" name="endTime" value="2"/>
+                            <label>1小时</label>
+                        </div>
+                        <div class="item">
+                            <input type="radio" name="endTime" value="3"/>
+                            <label>2小时</label>
+                        </div>
+                        <div class="item">
+                            <input type="radio" name="endTime" value="4"/>
+                            <label>4小时</label>
+                        </div>
+                        <div class="item">
+                            <input type="radio" name="endTime" value="5"/>
+                            <label>8小时</label>
+                        </div>
+                        <div class="item">
+                            <input type="radio" name="endTime" value="6"/>
+                            <label>一天</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="btn-create disable">生成</div>
+        </div>
+    </script>
+
+    <script src="//cdn.bootcss.com/zepto/1.1.6/zepto.js"></script>
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="./app/dist/director.min.js"></script>
+    <script src="./app/dist/bundle.js"></script>
 </body>
 </html>

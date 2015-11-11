@@ -109,7 +109,11 @@ router.get('/:id', function(req, res, next){
                     }
                 }
             }
-            res.json(posData);
+            res.json({
+                code: 10000,
+                errMsg: "",
+                data: posData
+            });
         }, function(err){
 
         });
