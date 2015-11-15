@@ -1,4 +1,5 @@
-var util = require('./util');
+var util = require('./util'),
+    weixin = require('./wx');
 
 var $checks = null,
     $intro = null,
@@ -29,8 +30,19 @@ function init(){
 
     $el.on('change', 'input', checkInput);
     $el.on('change', 'textarea', checkInput);
+    $el.on('click', '.upload-photo', choseHandle);
+    $btnCreate.on('click', uploadHandle);
+}
 
-    $btnCreate.on('click', upload);
+function choseHandle(e){
+    var $that = $(this);
+    weixin.choseImg(function(localId){
+        var imgSrc = 'url(' + localId + ');';
+        $that.css('background-image', imgSrc).attr('data-value',
+        localId);
+        $that.find('icon').hide();
+        checkInput();
+    });
 }
 
 function checkInput(e){
@@ -77,7 +89,7 @@ function checkInput(e){
     }
 }
 
-function upload(){
+function uploadAll(cb){
 
     if($(this).hasClass('disable')){
         return false;
@@ -105,9 +117,28 @@ function upload(){
         if(res.code != 10000){
             alert(res.errMsg);
         } else {
-            window.location.hash = '#/v/' + res.data.id;
+            cb && cb(res);
         }
     });
 }
 
+function uploadHandle(e){
+    var leftId = $leftPhoto.attr('data-value');
+
+    //todo:upload loading
+
+    weixin.uploadImg(leftId, function(leftSid){     //上传左边图片
+
+        $leftPhoto.attr('data-value', leftSid);
+        var rightId =  $rightPhoto.attr('data-value');
+
+        weixin.uploadImg(rightId, function(rightSid){  //上传右边图片
+            $rightPhoto.attr('data-value', rightSid);
+            uploadAll(function(res){
+                //todo: upload complete
+                window.location.hash = '#/v/' + res.data.id;
+            });
+        })
+    })
+}
 exports.init = init;

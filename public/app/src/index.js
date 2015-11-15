@@ -1,4 +1,5 @@
-var util = require('./util');
+var util = require('./util'),
+    weixin = require('./wx');
 
 var tpl = $('#J_index_tpl').html(),
     $el = $('.m-wrap'),
@@ -20,6 +21,17 @@ function init(voteId){
         if(data.voteItem){
             $('.btn-vote').eq(data.voteItem).addClass('already');
         }
+
+        //download image from weixin
+        weixin.downloadImage(data.leftVote.image, function(localId){
+            var imgSrc = 'url(' + localId + ');';
+            $('#J_left_photo').css('background-image', imgSrc);
+        });
+        weixin.downloadImage(data.rightVote.image, function(localId){
+            var imgSrc = 'url(' + localId + ');';
+            $('#J_right_photo').css('background-image', imgSrc);
+        });
+
     });
 
 }

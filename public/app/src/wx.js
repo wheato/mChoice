@@ -130,3 +130,14 @@ exports.login = function(cb){
             '&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
     }
 };
+
+exports.downloadImage = function(serverId, cb){
+    wx.downloadImage({
+        serverId: serverId, // 需要下载的图片的服务器端ID，由uploadImage接口获得
+        isShowProgressTips: 0, // 默认为1，显示进度提示
+        success: function (res) {
+            var localId = res.localId; // 返回图片下载后的本地ID
+            cb && cb(localId);
+        }
+    });
+};
