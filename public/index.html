@@ -20,20 +20,18 @@
                 <div class="m-creator">
                     <figure class="avatar"><img src="./img/avatar.jpg" alt=""/></figure>
                     <div class="info">
-                        <div class="nickname">wwwwwwwwwwwwwww</div>
-                        <time class="create-time">2015-11-09 15:30</time>
+                        <div class="nickname">{{=it.creator.nickname}}</div>
+                        <time class="create-time">{{=it.createTime}}</time>
                     </div>
                 </div>
                 <div class="m-countdown">
-                    <time>01:00:49</time>
+                    <time></time>
                     <div>剩余时间</div>
                 </div>
             </header>
 
             <div class="m-intro">
-                <p>有朋友问及此次招股。一句话，应不应该参与公开发
-                    售。如果应该，OK，中金股票大概会涨到哪里，什么
-                    区间；如果不应该参与，为什么。</p>
+                <p>{{=it.intro}}</p>
             </div>
 
             <!-- vote begin-->
@@ -43,25 +41,25 @@
                         <figure style="background-image: url(./img/testcover.jpg);">
                             <div class="mask"></div>
                         </figure>
-                        <div class="vote-number">113人支持</div>
-                        <div class="btn-vote"></div>
+                        <div class="vote-number"><span>{{=it.leftVote.voteTotal}}</span>人支持</div>
+                        <div class="btn-vote" data-id="{{=it.leftVote._id}}"></div>
                     </div>
-                    <div class="name">玛莎拉蒂Ghibli</div>
+                    <div class="name">{{=it.leftVote.name}}</div>
                 </div>
                 <div class="item right">
                     <div class="photo">
                         <figure style="background-image: url(./img/testcover.jpg);">
                             <div class="mask"></div>
                         </figure>
-                        <div class="vote-number">114人支持</div>
-                        <div class="btn-vote already"></div>
+                        <div class="vote-number"><span>{{=it.rightVote.voteTotal}}</span>人支持</div>
+                        <div class="btn-vote" data-id="{{=it.rightVote._id}}"></div>
                     </div>
-                    <div class="name">玛莎拉蒂Ghibli</div>
+                    <div class="name">{{=it.rightVote.name}}</div>
                 </div>
             </div>
             <!-- vote end-->
 
-            <div class="btn-goto-create">我也要帮选</div>
+            <div class="btn-goto-create" id="J_goto_create">我也要帮选</div>
         </div>
     </script>
     <script type="text/template" id="J_create_tpl">
@@ -121,6 +119,7 @@
 
     <script src="//cdn.bootcss.com/zepto/1.1.6/zepto.js"></script>
     <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="./app/dist/doT.min.js"></script>
     <script src="./app/dist/director.min.js"></script>
     <script src="./app/dist/bundle.js"></script>
 </body>

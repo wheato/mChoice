@@ -96,16 +96,17 @@ router.get('/:id', function(req, res, next){
                 posData.isEnd = 0;
                 posData.windId = null;
             }
-
             if(uid){
-                for(var i = 0, len = leftVote.voteRecord.lenght; i < len; i++){
+                for(var i = 0, len = leftVote.voteRecord.length; i < len; i++){
                     if(uid == leftVote.voteRecord[i]){
                         posData.isVoted = 1;
+                        posData.voteItem = 0;
                     }
                 }
-                for(var i = 0, len = rightVote.voteRecord.lenght; i < len; i++){
+                for(var i = 0, len = rightVote.voteRecord.length; i < len; i++){
                     if(uid == rightVote.voteRecord[i]){
                         posData.isVoted = 1;
+                        posData.voteItem = 1;
                     }
                 }
             }

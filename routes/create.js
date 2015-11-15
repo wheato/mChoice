@@ -6,6 +6,16 @@ var express = require('express'),
 
 var router = express.Router();
 
+var endTimeMapping = [
+    15 * 60,
+    30 * 60,
+    60 * 60,
+    2 * 60 * 60,
+    4 * 60 * 60,
+    8 * 60 * 60,
+    24 * 60 * 60,
+];
+
 function getUidFromCookie(req){
     return req.cookies["mChoice_uid"];
 }
@@ -33,7 +43,7 @@ function createVotes(voteData, cb){
     .then(function(){
         vote = new Vote({
             createUser: voteData.uid,
-            endTime: Date.parse(new Date())/1000 + 3000, //voteData.endTime,
+            endTime: Date.parse(new Date())/1000 + endTimeMapping[voteData.endTime],
             choiceIds: [leftItem['_id'], rightItem['_id']],
             winId: '',
             intro: voteData.intro
