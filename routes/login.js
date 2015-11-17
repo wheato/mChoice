@@ -6,7 +6,7 @@ var User = require('../db/user');
 
 /* GET users listing. */
 router.get('/:code', function(req, res, next) {
-
+  console.log(req.params.code);
   weixin.auth(req.params.code, function (err, user) {
     if (err) {
       res.json({
@@ -16,7 +16,7 @@ router.get('/:code', function(req, res, next) {
       });
 
     } else {
-
+        user.uid = user.openid;
         User.findOne({uid: user.uid}, function(err, data){
 
             if(err){

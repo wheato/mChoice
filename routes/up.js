@@ -24,13 +24,14 @@ router.get('/:id', function(req, res, next) {
         var isVoted = false;
 
         VoteItem.findOne({'_id': voteId}, function(err, item){
-
+            console.log(voteId);
             if(err){
                 res.json({
                     code: 10005,
                     data: {},
                     errMsg: 'ID错误'
                 });
+                return ;
             }
 
             //判断该用户是否已经投过票

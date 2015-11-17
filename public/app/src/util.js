@@ -13,7 +13,7 @@ exports.setCookie = function(c_name, value, expiredays) {
     var exdate = new Date();
     exdate.setDate(exdate.getDate() + expiredays);
     document.cookie = c_name + "=" + encodeURIComponent(value) +
-        ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString())
+        ((expiredays == null) ? "" : ";expires=" + exdate.toGMTString());
 };
 
 /* 获取cookie值 */
@@ -31,20 +31,21 @@ exports.getCookie = function(c_name) {
 };
 
 exports.checkLogin = function(){
-    var uid = getCookie('mChoise_uid');
+    var uid = exports.getCookie('mChoice_uid');
     return (uid ? true : false);
 };
 
+var host = 'http://sbk.treedom.cn/';
 exports.config = {
     ajax: {
-        getVote: 'http://127.0.0.1:3000/getVote/',
-        up: 'http://127.0.0.1:3000/up/',
-        login: 'http://127.0.0.1:3000/login/',
-        sign: 'http://127.0.0.1:3000/sign/',
-        create: 'http://127.0.0.1:3000/create'
+        getVote: host + 'getVote/',
+        up: host + 'up/',
+        login: host + 'login/',
+        sign: host + 'sign/',
+        create: host + 'create'
     },
     wx: {
-        appId: "wx875c7888a7aef3f7",
+        appId: "wxb942ad39c3f82624",
         appSecret: ""
     }
 };

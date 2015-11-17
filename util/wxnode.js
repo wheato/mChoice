@@ -31,9 +31,7 @@ var getAuth = function(optionData, cb){
     access_url = access_url.replace('{0}', optionData.appid).replace('{1}',
         optionData.secret).replace('{2}', optionData.code);
     needle.get(access_url, function(err, res){
-
         cb && cb(err, res.body);
-
     });
 };
 
@@ -74,11 +72,6 @@ var sign = function(url, cb){
 
         var ticket = global.jsapiTicket.ticket;
         encryptString(ticket, url, cb);
-
-        console.log("old ticket::" + ticket);
-        console.log('current_timestamp::' + global.jsapiTicket.timestamp);
-        console.log('timestamp compare::' + Date.parse(new Date()) / 1000 -
-            global.jsapiTicket.timestamp< 7200);
 
     } else {
         getAccessToken(wxconfig.appid, wxconfig.secret, function(error, access_token){
@@ -177,7 +170,6 @@ var auth = function(code, cb){
                         };
                         cb && cb(null, user);
                     }
-
                 });
             }
         }

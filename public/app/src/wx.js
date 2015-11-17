@@ -1,7 +1,7 @@
 var util = require('./util');
 
 
-exports.initWxSdk = function(){
+exports.initWxSdk = function(cb){
     window.localStorage.wxReady = 0;
     $.get(util.config.ajax.sign, function(res) {
         if (res.timestamp) {
@@ -57,6 +57,7 @@ exports.initWxSdk = function(){
 
     wx.ready(function() {
         window.localStorage.wxReady = 1;
+        cb && cb();
     });
 
 };
@@ -74,9 +75,9 @@ exports.choseImg = function(cb) {
 exports.uploadImg = function(id, cb){
     wx.uploadImage({
         localId: id,
-        isShowProgressTips: 1,
+        isShowProgressTips: 0,
         success: function(res) {
-            var serverId = res.serverId; // 杩斿洖鍥剧墖鐨勬湇鍔″櫒绔疘D
+            var serverId = res.serverId;
             cb && cb(serverId);
         }
     });
@@ -112,22 +113,21 @@ exports.setShareData = function(data){
     });
 };
 
-exports.login = function(cb){
+exports.login = function(state, cb){
     var code = util.getUrlParam('code');
     if (code) {
         $.get(util.config.ajax.login + code, function(res) {
-            if (res.code == 0) {
-                setCookie('mChoice_nick', res.data.nickname);
-                setCookie('mChoice_uid', res.data.uid);
+            if (res.code == 10000) {
+                util.setCookie('mChoice_nick', res.data.nickname, 7);
+                util.setCookie('mChoice_uid', res.data.uid, 7);
                 cb && cb();
             }
         });
-        return true
     } else {
 
         location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + util.config.wx.appId +
-            '&redirect_uri='+ encodeURIComponent(window.location.href) +
-            '&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
+            '&redirect_uri='+ encodeURIComponent(window.location.origin) +
+            '&response_type=code&scope=snsapi_userinfo&state=' + state +'#wechat_redirect';
     }
 };
 

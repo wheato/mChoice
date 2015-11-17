@@ -46,6 +46,7 @@ function createVotes(voteData, cb){
             endTime: Date.parse(new Date())/1000 + endTimeMapping[voteData.endTime],
             choiceIds: [leftItem['_id'], rightItem['_id']],
             winId: '',
+            pubTime: Date.parse(new Date())/1000,
             intro: voteData.intro
         });
         return vote.save();
@@ -104,7 +105,7 @@ router.post('/', function(req, res, next) {
             leftData: leftVoteData,
             rightData: rightVoteData,
             intro: intro,
-            endTime: endTime
+            endTime: endTime,
         }, function(err, data){
             var resData = {};
             if(err){

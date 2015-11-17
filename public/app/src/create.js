@@ -9,7 +9,21 @@ var $checks = null,
     $btnCreate = null;
 
 function init(){
+    var isLogin = util.checkLogin();
 
+    if(!isLogin){
+        weixin.login('CREATE', function(){
+            render();
+            weixin.initWxSdk();
+        });
+    } else {
+        render();
+        weixin.initWxSdk();
+    }
+
+}
+
+function render(){
     var tpl = $('#J_create_tpl').html(),
         $el = $('.m-wrap'),
         $footer = $('footer');
@@ -40,7 +54,7 @@ function choseHandle(e){
         var imgSrc = 'url(' + localId + ');';
         $that.css('background-image', imgSrc).attr('data-value',
         localId);
-        $that.find('icon').hide();
+        $that.find('.icon').hide();
         checkInput();
     });
 }
@@ -136,7 +150,9 @@ function uploadHandle(e){
             $rightPhoto.attr('data-value', rightSid);
             uploadAll(function(res){
                 //todo: upload complete
-                window.location.hash = '#/v/' + res.data.id;
+                var url = window.location.origin + '/#/v/' + res.data.id;
+                window.location.href = url;
+                //window.history.pushState(null, '帮选', url);
             });
         })
     })
