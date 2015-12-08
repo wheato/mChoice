@@ -140,6 +140,9 @@ function uploadHandle(e){
     var leftId = $leftPhoto.attr('data-value');
 
     //todo:upload loading
+    $('body').append('<div class="m-loading"><div class="loading-icon">' +
+        '<img src="img/three-dots.svg" alt=""/></div></div>');
+
 
     weixin.uploadImg(leftId, function(leftSid){     //上传左边图片
 
@@ -149,12 +152,15 @@ function uploadHandle(e){
         weixin.uploadImg(rightId, function(rightSid){  //上传右边图片
             $rightPhoto.attr('data-value', rightSid);
             uploadAll(function(res){
-                //todo: upload complete
+
+                $('.m-loading').remove();
+
                 var url = window.location.origin + '/#/v/' + res.data.id;
                 window.location.href = url;
                 //window.history.pushState(null, '帮选', url);
             });
-        })
+        });
+
     })
 }
 exports.init = init;

@@ -313,3 +313,25 @@ footer{
 footer.unfloat{
     position: static;
 }
+
+.m-loading{
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    border-radius: 4px;
+    background: rgba(251, 131, 4, .8);
+    overflow: hidden;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+.m-loading .loading-icon{
+    width: 40px;
+    margin: 20px auto 0;
+}
+.m-loading .loading-icon img{
+    display: block;
+    width: 100%;
+}
